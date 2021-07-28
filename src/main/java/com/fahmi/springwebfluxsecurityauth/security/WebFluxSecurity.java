@@ -12,15 +12,15 @@ public class WebFluxSecurity {
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http){
         http
-                // allow all path to be accessed
-                .authorizeExchange()
-                .pathMatchers("/**").permitAll()
-
                 // add AuthenticationWebFilter and set the handler
-                .and()
                 .formLogin()
                 .authenticationSuccessHandler(new WebFilterChainServerAuthenticationSuccessHandler())
                 .authenticationFailureHandler(((webFilterExchange, exception) -> Mono.error(exception)))
+
+                // allow all path accessed by all role
+                .and()
+                .authorizeExchange()
+                .pathMatchers("/**").permitAll()
 
                 .and()
                 .httpBasic();
