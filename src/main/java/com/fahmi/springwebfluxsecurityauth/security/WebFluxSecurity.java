@@ -12,6 +12,9 @@ public class WebFluxSecurity {
     @Bean
     public SecurityWebFilterChain chain(ServerHttpSecurity http){
         http
+                // disable CSRF
+                .csrf().disable()
+
                 // add AuthenticationWebFilter and set the handler
                 .formLogin()
                 .authenticationSuccessHandler(new WebFilterChainServerAuthenticationSuccessHandler())
