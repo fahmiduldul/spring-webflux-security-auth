@@ -19,13 +19,13 @@ public class Config {
         UserDetails user1 = User.builder()
                 .username("user1")
                 .password(this.passwordEncoder().encode("password"))
-                .roles("USER")
+                .roles(Roles.USER)
                 .build();
 
         UserDetails user2 = User.builder()
                 .username("user2")
                 .password(this.passwordEncoder().encode("password"))
-                .roles("ADMIN")
+                .roles(Roles.ADMIN)
                 .build();
 
         return new MapReactiveUserDetailsService(user1, user2);
