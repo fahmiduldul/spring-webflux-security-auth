@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -36,7 +37,8 @@ public class JwtFilterConfig {
         filter.setServerAuthenticationConverter(this.jwtAuthenticationConverter);
 
         filter.setAuthenticationSuccessHandler(new WebFilterChainServerAuthenticationSuccessHandler());
-        filter.setAuthenticationFailureHandler((exchange, exception) -> Mono.error(exception));
+        filter.setAuthenticationFailureHandler((exchange, exception) ->
+                Mono.error(new BadCredentialsException("Wrong authentication token")));
 
         filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/status/check"));
 

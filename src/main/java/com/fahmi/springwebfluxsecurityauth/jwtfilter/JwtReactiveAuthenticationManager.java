@@ -3,6 +3,7 @@ package com.fahmi.springwebfluxsecurityauth.jwtfilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -33,7 +34,7 @@ public class JwtReactiveAuthenticationManager implements ReactiveAuthenticationM
         try{
             username = this.jwtUtil.getSubject(token);
         } catch (Exception e){
-            return Mono.empty();
+            return Mono.error(new BadCredentialsException("invalid credentials"));
         }
 
         return this.userDetailsService.findByUsername(username)
