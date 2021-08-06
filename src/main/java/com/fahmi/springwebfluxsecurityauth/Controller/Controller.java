@@ -1,4 +1,4 @@
-package com.fahmi.springwebfluxsecurityauth;
+package com.fahmi.springwebfluxsecurityauth.Controller;
 
 import com.fahmi.springwebfluxsecurityauth.jwtfilter.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
