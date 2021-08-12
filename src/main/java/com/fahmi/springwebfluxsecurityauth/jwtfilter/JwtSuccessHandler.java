@@ -16,10 +16,7 @@ public class JwtSuccessHandler implements ServerAuthenticationSuccessHandler {
     public Mono<Void> onAuthenticationSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
         ServerWebExchange exchange = webFilterExchange.getExchange();
 
-        SecurityContext securityContext = new SecurityContextImpl();
-        securityContext.setAuthentication(authentication);
-
         return webFilterExchange.getChain().filter(exchange)
-                .contextWrite(ReactiveSecurityContextHolder.withSecurityContext(Mono.just(securityContext)));
+                .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
     }
 }

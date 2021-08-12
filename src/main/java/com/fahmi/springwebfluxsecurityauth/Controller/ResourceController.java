@@ -1,4 +1,4 @@
-package com.fahmi.springwebfluxsecurityauth.Controller;
+package com.fahmi.springwebfluxsecurityauth.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -7,13 +7,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.Set;
 
 @Slf4j
@@ -21,7 +19,7 @@ import java.util.Set;
 @RequestMapping("/resource")
 public class ResourceController {
 
-    @RolesAllowed("ROLE_ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public Mono<String> getAdmin(Authentication authentication){
         UserDetails userDetails = (User) authentication.getPrincipal();

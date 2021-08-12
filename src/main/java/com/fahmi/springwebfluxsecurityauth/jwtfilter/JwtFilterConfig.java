@@ -43,7 +43,7 @@ public class JwtFilterConfig {
         filter.setAuthenticationFailureHandler((exchange, exception) ->
                 Mono.error(new BadCredentialsException("Wrong authentication token")));
 
-        filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/status/check"));
+        filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/resource/**"));
 
         filter.setAuthenticationSuccessHandler(this.jwtSuccessHandler);
 
