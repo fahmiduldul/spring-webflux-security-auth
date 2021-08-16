@@ -16,7 +16,8 @@ public class JwtAuthenticationConverter implements ServerAuthenticationConverter
         String authorization = exchange.getRequest()
                 .getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
-        if(!authorization.startsWith("Bearer ") || authorization == null){
+        assert authorization != null;
+        if(!authorization.startsWith("Bearer ")){
             return Mono.empty();
         }
 

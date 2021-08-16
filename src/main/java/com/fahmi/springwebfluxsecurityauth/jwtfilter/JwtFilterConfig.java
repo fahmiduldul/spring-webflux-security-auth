@@ -20,17 +20,14 @@ public class JwtFilterConfig {
     private ReactiveUserDetailsService userDetailsService;
     private JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager;
     private JwtAuthenticationConverter jwtAuthenticationConverter;
-    private JwtSuccessHandler jwtSuccessHandler;
 
     @Autowired
     public JwtFilterConfig(ReactiveUserDetailsService userDetailsService,
                            @Qualifier("jwt") JwtReactiveAuthenticationManager jwtReactiveAuthenticationManager,
-                           JwtAuthenticationConverter jwtAuthenticationConverter,
-                           JwtSuccessHandler jwtSuccessHandler) {
+                           JwtAuthenticationConverter jwtAuthenticationConverter) {
         this.userDetailsService = userDetailsService;
         this.jwtReactiveAuthenticationManager = jwtReactiveAuthenticationManager;
         this.jwtAuthenticationConverter = jwtAuthenticationConverter;
-        this.jwtSuccessHandler = jwtSuccessHandler;
     }
 
     @Bean
@@ -44,8 +41,6 @@ public class JwtFilterConfig {
                 Mono.error(new BadCredentialsException("Wrong authentication token")));
 
         filter.setRequiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/resource/**"));
-
-        filter.setAuthenticationSuccessHandler(this.jwtSuccessHandler);
 
         return filter;
     }

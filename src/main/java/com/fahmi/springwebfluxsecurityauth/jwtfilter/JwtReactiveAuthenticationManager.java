@@ -33,6 +33,7 @@ public class JwtReactiveAuthenticationManager implements ReactiveAuthenticationM
         String username;
         try {
             username = this.jwtUtil.getSubject(token);
+            if(this.jwtUtil.verify(token)) throw new Exception();
         } catch (Exception e) {
             return Mono.error(new BadCredentialsException("invalid credentials"));
         }

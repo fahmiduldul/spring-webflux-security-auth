@@ -23,7 +23,6 @@ public class ResourceController {
     @GetMapping("/admin")
     public Mono<String> getAdmin(Authentication authentication){
         UserDetails userDetails = (User) authentication.getPrincipal();
-        log.info("{}", userDetails.getAuthorities());
         return Mono.just("Hi " + userDetails.getUsername() + ". this is admin resource");
     }
 
@@ -31,9 +30,9 @@ public class ResourceController {
     public Mono<String> getUser(Authentication authentication){
         UserDetails userDetails = (User) authentication.getPrincipal();
         Set<String> authorities = AuthorityUtils.authorityListToSet(userDetails.getAuthorities());
-        log.info("{}", authorities);
+
         if(authorities.contains("ROLE_USER")){
-            return Mono.just("hi, this is user resource");
+            return Mono.just("hi," + userDetails.getUsername() + " this is user resource");
         } else {
             throw new BadCredentialsException("bad credentials");
         }
