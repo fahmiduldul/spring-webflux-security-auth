@@ -42,12 +42,6 @@ public class JwtUtil {
         return this.getAllClaims(jws).getSubject();
     }
 
-    public GrantedAuthority getAuthority(String jws){
-        log.info("{}", this.getAllClaims(jws).get("role"));
-        return null;
-        //return ((ArrayList<? extends  GrantedAuthority>) this.getAllClaims(jws).get("role")).get(0);
-    }
-
     public boolean verify(String jws){
         return this.getAllClaims(jws).getExpiration().before(new Date());
     }
