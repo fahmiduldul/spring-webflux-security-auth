@@ -32,13 +32,10 @@ public class Controller {
     }
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<String>> login(ServerWebExchange exchange, Authentication authentication){
+    public Mono<ResponseEntity<String>> login(Authentication authentication){
         String username = ((User) authentication.getPrincipal()).getUsername();
 
-        GrantedAuthority authority = (GrantedAuthority) authentication.getAuthorities().toArray()[0];
-
         String token = this.jwtUtil.encode(username);
-
 
         // option 1 to return username
         User userDetails = (User) authentication.getPrincipal();

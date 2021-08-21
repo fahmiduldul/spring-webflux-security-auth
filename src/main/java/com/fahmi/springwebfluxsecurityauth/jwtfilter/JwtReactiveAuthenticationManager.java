@@ -10,8 +10,6 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Slf4j
 @Component
 @Qualifier("jwt")
@@ -32,13 +30,14 @@ public class JwtReactiveAuthenticationManager implements ReactiveAuthenticationM
 
         String username;
         try {
+            if(!this.jwtUtil.verify(token)) throw new Exception();
             username = this.jwtUtil.getSubject(token);
-            if(this.jwtUtil.verify(token)) throw new Exception();
         } catch (Exception e) {
             return Mono.error(new BadCredentialsException("invalid credentials"));
         }
 
         return this.userDetailsService.findByUsername(username)
+                .switchIfEmpty(Mono.error(new BadCredentialsException("invalid credentials")))
                 .map(userDetails -> new JwtAuthenticationToken(userDetails, token, userDetails.getAuthorities()));
     }
 }
